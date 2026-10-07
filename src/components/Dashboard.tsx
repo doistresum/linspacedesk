@@ -5,9 +5,10 @@ interface DashboardProps {
   onConnect: () => void;
   onViewDisplay: () => void;
   onDemo: () => void;
+  onTablet?: () => void;
 }
 
-export default function Dashboard({ displayInfo, onConnect, onViewDisplay, onDemo }: DashboardProps) {
+export default function Dashboard({ displayInfo, onConnect, onViewDisplay, onDemo, onTablet }: DashboardProps) {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
@@ -68,7 +69,7 @@ export default function Dashboard({ displayInfo, onConnect, onViewDisplay, onDem
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-gray-800/50 rounded-2xl border border-gray-700 p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <i className="fas fa-rocket text-yellow-400"></i>
@@ -84,10 +85,41 @@ export default function Dashboard({ displayInfo, onConnect, onViewDisplay, onDem
 
         <div className="bg-gray-800/50 rounded-2xl border border-gray-700 p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <i className="fas fa-tablet-alt text-teal-400"></i>
+            Android Tablet
+          </h3>
+          <div className="space-y-3">
+            <p className="text-sm text-gray-300">
+              Use your Android tablet (4.2+) as a wireless secondary display.
+            </p>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <span className="bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-700/30">
+                <i className="fab fa-android mr-1"></i>Android 4.2+
+              </span>
+              <span className="bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-700/30">
+                <i className="fas fa-qrcode mr-1"></i>QR Connect
+              </span>
+              <span className="bg-purple-900/30 text-purple-400 px-2 py-1 rounded border border-purple-700/30">
+                <i className="fas fa-mobile-alt mr-1"></i>PWA/APK
+              </span>
+            </div>
+            {onTablet && (
+              <button
+                onClick={onTablet}
+                className="w-full mt-2 px-4 py-2.5 bg-teal-600/20 hover:bg-teal-600/30 border border-teal-500/30 rounded-xl text-sm font-medium text-teal-300 transition-all"
+              >
+                <i className="fas fa-tablet-alt mr-2"></i>Open Tablet Viewer
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-gray-800/50 rounded-2xl border border-gray-700 p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <i className="fas fa-star text-yellow-400"></i>
             Features
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-2">
             <Feature icon="fas fa-desktop" text="Multi-display" />
             <Feature icon="fas fa-hand-pointer" text="Touch input" />
             <Feature icon="fas fa-bolt" text="Low latency" />

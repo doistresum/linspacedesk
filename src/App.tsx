@@ -4,8 +4,9 @@ import DisplayViewer from './components/DisplayViewer';
 import Dashboard from './components/Dashboard';
 import ServerSetup from './components/ServerSetup';
 import Settings from './components/Settings';
+import TabletViewer from './components/TabletViewer';
 
-export type AppView = 'dashboard' | 'connect' | 'viewer' | 'setup' | 'settings';
+export type AppView = 'dashboard' | 'connect' | 'viewer' | 'setup' | 'settings' | 'tablet';
 
 export interface ConnectionConfig {
   hostIP: string;
@@ -136,6 +137,16 @@ function App() {
                 <i className="fas fa-server mr-1.5"></i>Server
               </button>
               <button
+                onClick={() => setCurrentView('tablet')}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  currentView === 'tablet'
+                    ? 'bg-teal-600 text-white'
+                    : 'text-gray-300 hover:bg-gray-700'
+                }`}
+              >
+                <i className="fas fa-tablet-alt mr-1.5"></i>Tablet
+              </button>
+              <button
                 onClick={() => setCurrentView('settings')}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   currentView === 'settings'
@@ -158,6 +169,7 @@ function App() {
             onConnect={() => setCurrentView('connect')}
             onViewDisplay={() => setCurrentView('viewer')}
             onDemo={handleStartDemo}
+            onTablet={() => setCurrentView('tablet')}
           />
         )}
         {currentView === 'connect' && (
@@ -177,6 +189,20 @@ function App() {
         {currentView === 'setup' && <ServerSetup />}
         {currentView === 'settings' && (
           <Settings config={config} setConfig={setConfig} />
+        )}
+        {currentView === 'tablet' && (
+          <TabletViewer onConnectFromTablet={(ip, port) => {
+            setConfig(prev => ({ ...prev, hostIP: ip, port }));
+            setDisplayInfo({
+              connected: true,
+              hostIP: ip,
+              resolution: config.resolution,
+              fps: config.fps,
+              latency: Math.floor(Math.random() * 15) + 5,
+              bandwidth: Math.floor(Math.random() * 40) + 40,
+            });
+            setCurrentView('viewer');
+          }} />
         )}
       </main>
     </div>
